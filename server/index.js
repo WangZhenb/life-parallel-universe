@@ -187,6 +187,15 @@ async function callDeepSeek(systemPrompt, userPrompt) {
 // API 路由
 // ---------------------------------------------------------------------------
 
+// 根路径 — Railway 健康检查
+app.get('/', (_req, res) => {
+  res.send('Life Parallel Universe API is running')
+})
+
+app.get('/health', (_req, res) => {
+  res.json({ status: 'ok' })
+})
+
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', model: DEEPSEEK_MODEL })
 })
@@ -222,9 +231,9 @@ app.post('/api/generate', async (req, res) => {
 // ---------------------------------------------------------------------------
 // 启动
 // ---------------------------------------------------------------------------
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n  ◈ 平行宇宙 API 服务已启动`)
-  console.log(`  → http://localhost:${PORT}`)
+  console.log(`  → http://0.0.0.0:${PORT}`)
   console.log(`  → POST /api/generate`)
   console.log(`  → Model: ${DEEPSEEK_MODEL}`)
   if (!process.env.DEEPSEEK_API_KEY || process.env.DEEPSEEK_API_KEY === 'sk-your-api-key-here') {
