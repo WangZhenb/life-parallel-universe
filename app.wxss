@@ -1,0 +1,45 @@
+/* 全局 CSS 变量 & 基础样式 */
+page {
+  --bg-primary: #0a0a0f;
+  --bg-card: #12121f;
+  --bg-card-hover: #1a1a2e;
+  --text-primary: #e8e8f0;
+  --text-secondary: #8888a0;
+  --text-muted: #555568;
+  --accent-cyan: #00f5ff;
+  --accent-purple: #7c3aed;
+  --accent-pink: #ec4899;
+  --accent-green: #22d3bb;
+  --accent-amber: #f59e0b;
+  --border-subtle: rgba(255, 255, 255, 0.06);
+  --border-neon: rgba(0, 245, 255, 0.3);
+  --shadow-neon: 0 0 20px rgba(0, 245, 255, 0.15);
+
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+    "Microsoft YaHei", sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+/* 全局动画 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12rpx); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.5; }
+}
+
+@keyframes glow {
+  0%, 100% { box-shadow: 0 0 8px rgba(0, 245, 255, 0.3); }
+  50%      { box-shadow: 0 0 24px rgba(0, 245, 255, 0.6); }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease both;
+}

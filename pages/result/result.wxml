@@ -1,0 +1,140 @@
+<view class="page">
+  <!-- 顶部状态栏 -->
+  <view class="top-bar fade-in">
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-arrow">←</text>
+      <text class="back-text">返回</text>
+    </view>
+    <view class="top-tags">
+      <text class="source-tag {{sourceClass}}" wx:if="{{sourceTag}}">{{sourceTag}}</text>
+      <text class="universe-tag">{{universeTag}}</text>
+    </view>
+  </view>
+
+  <!-- 分支路径面包屑 -->
+  <view class="breadcrumb fade-in" style="animation-delay: 0.1s" wx:if="{{branchDisplay}}">
+    <text class="breadcrumb-text">{{branchDisplay}}</text>
+  </view>
+
+  <!-- 标题 -->
+  <view class="story-header fade-in" style="animation-delay: 0.15s">
+    <text class="story-title">{{title || '正在生成故事...'}}</text>
+    <view class="title-line"></view>
+  </view>
+
+  <scroll-view class="story-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- Loading -->
+    <view class="loading-section fade-in" wx:if="{{phase === 'loading'}}">
+      <view class="loading-pulse">
+        <view class="pulse-ring ring-1"></view>
+        <view class="pulse-ring ring-2"></view>
+        <view class="pulse-ring ring-3"></view>
+        <text class="pulse-dot">◈</text>
+      </view>
+      <text class="loading-text">正在穿越平行宇宙...</text>
+      <text class="loading-sub">AI 正在生成你的另一个版本的人生</text>
+    </view>
+
+    <!-- 非 Loading 内容 -->
+    <block wx:if="{{phase !== 'loading'}}">
+
+      <!-- Summary + 跳过按钮 -->
+      <view class="section summary-section">
+        <text class="section-text summary-text">{{displaySummary}}</text>
+        <text class="inline-cursor {{phase === 'summary' ? '' : 'cursor-hide'}}">|</text>
+      </view>
+
+      <!-- 跳过动画按钮 -->
+      <view class="skip-wrap {{phase === 'complete' ? 'skip-hide' : ''}}" bindtap="onSkip">
+        <text class="skip-label">跳过动画 →→</text>
+      </view>
+
+      <!-- 时间线 -->
+      <view class="timeline-section" wx:if="{{timeline.length > 0}}">
+        <view class="timeline-title-row">
+          <view class="t-symbol"></view>
+          <text class="t-title">时间线</text>
+        </view>
+
+        <view class="timeline-track">
+          <view class="tl-line"></view>
+          <view
+            wx:for="{{timeline}}"
+            wx:key="year"
+            class="tl-item {{timelineVisible[index] ? 'tl-visible' : ''}} {{index === timeline.length - 1 && timelineVisible[index] ? 'tl-last' : ''}}"
+          >
+            <view class="tl-dot {{timelineVisible[index] ? 'dot-glow' : ''}}">
+              <view class="tl-dot-inner"></view>
+            </view>
+            <view class="tl-content">
+              <text class="tl-year">{{item.year}}</text>
+              <text class="tl-event">{{item.event}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- Ending -->
+      <view class="section ending-section" wx:if="{{phase === 'ending' || phase === 'complete' || displayEnding}}">
+        <view class="ending-divider">
+          <view class="ed-line"></view>
+          <text class="ed-label">终章</text>
+          <view class="ed-line"></view>
+        </view>
+        <text class="section-text ending-text">{{displayEnding}}</text>
+        <text class="inline-cursor {{phase === 'ending' ? '' : 'cursor-hide'}}">|</text>
+      </view>
+
+      <!-- 完成提示 + 保存 -->
+      <view class="done-section {{phase === 'complete' ? 'show' : ''}}">
+        <view class="complete-hint">
+          <view class="hint-line"></view>
+          <text class="hint-text">故事生成完毕</text>
+          <view class="hint-line"></view>
+        </view>
+        <button class="save-inline-btn" bindtap="onSave">
+          <text class="save-icon">💾</text>
+          <text>保存到历史</text>
+        </button>
+      </view>
+
+      <!-- 选择树按钮 -->
+      <view class="choices-section {{phase === 'complete' ? 'show' : ''}}">
+        <view class="choices-title-row">
+          <view class="t-symbol"></view>
+          <text class="t-title">下一步人生选择</text>
+        </view>
+        <view class="choices-grid">
+          <view
+            wx:for="{{choices}}"
+            wx:key="*this"
+            class="choice-btn"
+            data-index="{{index}}"
+            bindtap="onChoice"
+          >
+            <text class="choice-num">{{index + 1}}</text>
+            <text class="choice-label">{{item}}</text>
+            <text class="choice-arrow">→</text>
+          </view>
+        </view>
+        <text class="choices-hint">选择一个方向，继续探索平行宇宙</text>
+      </view>
+
+    </block>
+
+    <view style="height: 200rpx;"></view>
+  </scroll-view>
+
+  <!-- 底部操作栏 -->
+  <view class="bottom-bar fade-in" style="animation-delay: 0.4s">
+    <button class="action-btn retry-btn" bindtap="onRetry" disabled="{{phase === 'loading'}}">
+      <text class="action-icon">⟳</text>
+      <text>重新生成</text>
+    </button>
+    <button class="action-btn home-btn" bindtap="onBack">
+      <text class="action-icon">⌂</text>
+      <text>返回首页</text>
+    </button>
+  </view>
+</view>

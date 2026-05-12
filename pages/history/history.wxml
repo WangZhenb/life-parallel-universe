@@ -1,0 +1,108 @@
+<view class="page">
+  <!-- 顶部栏 -->
+  <view class="top-bar fade-in">
+    <view class="back-btn" bindtap="onBack">
+      <text class="back-arrow">←</text>
+      <text class="back-text">返回首页</text>
+    </view>
+    <text class="history-count" wx:if="{{list.length}}">{{list.length}} 个宇宙</text>
+  </view>
+
+  <view class="title-section fade-in" style="animation-delay: 0.15s">
+    <text class="title">历史宇宙</text>
+    <text class="subtitle">你曾经探索过的平行人生</text>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-state fade-in" style="animation-delay: 0.25s" wx:if="{{list.length === 0}}">
+    <text class="empty-icon">✦</text>
+    <text class="empty-title">还没有探索过任何宇宙</text>
+    <text class="empty-desc">去首页生成你的第一个平行人生吧</text>
+    <button class="empty-btn" bindtap="onBack">开始探索</button>
+  </view>
+
+  <!-- 历史列表 -->
+  <scroll-view class="list-scroll" scroll-y enhanced show-scrollbar="{{false}}" wx:if="{{list.length > 0}}">
+    <view
+      class="story-card fade-in"
+      wx:for="{{list}}"
+      wx:key="id"
+      style="animation-delay: {{0.1 + index * 0.06}}s"
+      data-index="{{index}}"
+      bindtap="onTapStory"
+    >
+      <view class="card-meta">
+        <view class="card-tags">
+          <text class="card-tag">{{item.styleName}}</text>
+          <text class="card-source {{item.source === 'AI 生成' ? 'ai' : 'mock'}}" wx:if="{{item.source}}">{{item.source}}</text>
+        </view>
+        <text class="card-time">{{item.timeAgo}}</text>
+      </view>
+      <text class="card-title">{{item.title}}</text>
+      <text class="card-choice">选择：{{item.userChoice}}</text>
+      <text class="card-branch" wx:if="{{item.branchDisplay}}">分支：{{item.branchDisplay}}</text>
+      <view class="card-footer">
+        <text class="card-preview">{{item.preview}}</text>
+        <text class="card-arrow">→</text>
+      </view>
+    </view>
+
+    <view class="list-actions">
+      <button class="clear-btn" bindtap="onClearAll">清空全部历史</button>
+    </view>
+
+    <view style="height: 80rpx;"></view>
+  </scroll-view>
+
+  <!-- 故事详情弹窗 -->
+  <view class="modal-mask {{detailVisible ? 'show' : ''}}" bindtap="onCloseDetail">
+    <view class="modal-content" catchtap="">
+      <view class="modal-header">
+        <view class="modal-tags">
+          <text class="modal-tag">{{currentStory.styleName}}</text>
+          <text class="modal-source {{currentStory.source === 'AI 生成' ? 'ai' : 'mock'}}" wx:if="{{currentStory.source}}">{{currentStory.source}}</text>
+        </view>
+        <view class="modal-close" bindtap="onCloseDetail">
+          <text>✕</text>
+        </view>
+      </view>
+
+      <scroll-view class="modal-scroll" scroll-y enhanced show-scrollbar="{{false}}">
+        <!-- 标题 & 分支 -->
+        <text class="mod-title">{{currentStory.title}}</text>
+        <text class="mod-choice">选择：{{currentStory.userChoice}}</text>
+        <text class="mod-branch" wx:if="{{currentStory.branchDisplay}}">分支路径：{{currentStory.branchDisplay}}</text>
+
+        <!-- 新格式：summary + timeline + ending -->
+        <block wx:if="{{currentStory.summary}}">
+          <text class="mod-label">概要</text>
+          <text class="mod-text">{{currentStory.summary}}</text>
+
+          <text class="mod-label" wx:if="{{currentStory.timeline && currentStory.timeline.length}}">时间线</text>
+          <view class="mod-timeline" wx:if="{{currentStory.timeline && currentStory.timeline.length}}">
+            <view class="mod-tl-item" wx:for="{{currentStory.timeline}}" wx:key="year" wx:for-item="tl">
+              <text class="mod-tl-year">{{tl.year}}</text>
+              <text class="mod-tl-event">{{tl.event}}</text>
+            </view>
+          </view>
+
+          <text class="mod-label">终章</text>
+          <text class="mod-text">{{currentStory.ending}}</text>
+
+          <!-- choices -->
+          <view class="mod-choices" wx:if="{{currentStory.choices && currentStory.choices.length}}">
+            <text class="mod-label">当时的选择分支</text>
+            <text class="mod-choice-item" wx:for="{{currentStory.choices}}" wx:key="*this" wx:for-item="ch">{{index + 1}}. {{ch}}</text>
+          </view>
+        </block>
+
+        <!-- 旧格式兼容：纯文本 -->
+        <text class="mod-text" wx:else>{{currentStory.story}}</text>
+      </scroll-view>
+
+      <view class="modal-footer">
+        <button class="modal-btn" bindtap="onDeleteStory">删除</button>
+      </view>
+    </view>
+  </view>
+</view>

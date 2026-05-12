@@ -1,0 +1,71 @@
+<view class="page">
+  <!-- 星空背景 -->
+  <view class="stars-container">
+    <view class="star" wx:for="{{stars}}" wx:key="*this" style="left: {{item.x}}%; top: {{item.y}}%; animation-delay: {{item.delay}}s; animation-duration: {{item.duration}}s;"></view>
+  </view>
+
+  <view class="content">
+    <!-- 主视觉区 -->
+    <view class="hero fade-in">
+      <view class="logo-line"></view>
+      <text class="title-en">PARALLEL UNIVERSE</text>
+      <text class="title-cn">人生平行宇宙模拟器</text>
+      <text class="subtitle">如果当初做了不同的选择，你的人生会怎样？</text>
+      <view class="logo-line"></view>
+    </view>
+
+    <!-- 输入区 -->
+    <view class="input-section fade-in" style="animation-delay: 0.2s">
+      <text class="label">输入一个人生选择</text>
+      <textarea
+        class="choice-input"
+        placeholder="例如：如果我在25岁去了东京..."
+        placeholder-style="color: #555568;"
+        value="{{userChoice}}"
+        bindinput="onInputChange"
+        maxlength="60"
+        auto-height
+      />
+      <text class="char-count">{{userChoice.length}}/60</text>
+    </view>
+
+    <!-- 结局风格选择器 -->
+    <view class="style-section fade-in" style="animation-delay: 0.35s">
+      <text class="label">选择结局风格</text>
+      <view class="style-grid">
+        <view
+          wx:for="{{styles}}"
+          wx:key="value"
+          class="style-card {{endingStyle === item.value ? 'active' : ''}}"
+          data-style="{{item.value}}"
+          bindtap="onStyleSelect"
+        >
+          <text class="style-icon">{{item.icon}}</text>
+          <text class="style-name">{{item.name}}</text>
+          <text class="style-desc">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 生成按钮 -->
+    <view class="action-section fade-in" style="animation-delay: 0.5s">
+      <button class="generate-btn {{userChoice ? '' : 'disabled'}}" bindtap="onGenerate" disabled="{{!userChoice}}">
+        <text class="btn-text">生成平行宇宙</text>
+        <text class="btn-arrow">→</text>
+      </button>
+    </view>
+
+    <!-- 历史入口 -->
+    <view class="history-entry fade-in" style="animation-delay: 0.6s" bindtap="onGoHistory">
+      <view class="history-icon-wrap">
+        <text class="history-icon">◈</text>
+      </view>
+      <text class="history-label">查看历史宇宙</text>
+      <text class="history-count" wx:if="{{historyCount > 0}}">{{historyCount}}</text>
+      <text class="history-arrow">→</text>
+    </view>
+
+    <!-- 底部提示 -->
+    <text class="footer-hint fade-in" style="animation-delay: 0.7s">AI 将为你生成一段平行宇宙人生故事</text>
+  </view>
+</view>

@@ -1,0 +1,16 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/result/result",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0a0a0f",
+    "navigationBarTitleText": "人生平行宇宙模拟器",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0a0a0f",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
