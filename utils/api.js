@@ -13,7 +13,8 @@ const BASE_URL = 'https://life-parallel-universe-production.up.railway.app'
 function callBackend(userChoice, endingStyle, branchPath) {
   return new Promise((resolve, reject) => {
     wx.request({
-      url: `${SERVER_URL}/api/generate`,
+      url: `${BASE_URL}/api/generate`,
+
       method: 'POST',
       header: { 'Content-Type': 'application/json' },
       data: {
