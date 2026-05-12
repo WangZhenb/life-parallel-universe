@@ -1,0 +1,9 @@
+{
+  "name": "life-parallel-universe-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'No root build needed'",
+    "start": "cd server && npm install && npm start"
+  }
+}
