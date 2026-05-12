@@ -4,7 +4,7 @@
  */
 const mock = require('./mock')
 
-const SERVER_URL = 'http://localhost:3000'
+const BASE_URL = 'https://life-parallel-universe-production.up.railway.app'
 
 /**
  * 调用后端 API 生成结构化故事
