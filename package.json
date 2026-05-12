@@ -4,6 +4,6 @@
   "private": true,
   "scripts": {
     "build": "echo 'No root build needed'",
-    "start": "cd server && npm install && npm start"
+    "start": "node server/index.js"
   }
 }
